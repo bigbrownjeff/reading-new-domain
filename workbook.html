@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Domain-Ramp Workbook — read a new industry in six weeks</title>
+<style>
+  :root{
+    --paper:#fbf9f5; --ink:#1b1a17; --muted:#6f6a62; --faint:#938d84; --rule:#e2dccf;
+    --accent:#9c3b2e; --accentSoft:#f1e3de; --ok:#3f7d54; --amber:#c0892e; --down:#b23a2c;
+    --field:#ffffff; --fieldBorder:#d8d1c4; --chip:#efe9dc;
+    --serif:ui-serif,Georgia,"Iowan Old Style",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#efece5;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 18px 80px}
+
+  /* --- masthead --- */
+  header.mast{border:1px solid var(--rule);background:var(--paper);padding:26px 30px 24px;margin-bottom:18px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .accent{color:var(--accent)}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.02;margin:8px 0 6px;letter-spacing:-.01em}
+  .tag{font-family:var(--serif);font-size:clamp(15px,2.4vw,18px);font-style:italic;color:#3c382f;margin:0 0 4px;line-height:1.35;max-width:62ch}
+  .submast{font-size:13.5px;color:var(--muted);margin:10px 0 0;max-width:70ch}
+  .submast b{color:var(--ink);font-weight:650}
+
+  /* --- toolbar --- */
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--rule)}
+  .domainField{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex:1 1 320px}
+  .domainField label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  input.domain{font-family:var(--serif);font-size:17px;padding:6px 10px;border:1px solid var(--fieldBorder);background:var(--field);color:var(--ink);min-width:200px;flex:1 1 200px}
+  button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:8px 14px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:2px;cursor:pointer}
+  button.ghost{background:transparent;color:var(--accent)}
+  button.ghost:hover{background:var(--accentSoft)}
+  button:hover{opacity:.92}
+  button.mini{padding:4px 9px;font-size:10px}
+
+  /* --- progress strip (the six steps) --- */
+  .steps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:18px 0 8px}
+  @media(max-width:760px){.steps{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:420px){.steps{grid-template-columns:1fr}}
+  /* step chips are real <button>s (keyboard nav); undo the global button skin */
+  .stepchip{display:block;width:100%;text-align:left;font:inherit;letter-spacing:normal;text-transform:none;color:var(--ink);border:1px solid var(--rule);background:var(--paper);border-radius:0;padding:9px 10px 10px;cursor:pointer;transition:background .12s}
+  .stepchip:hover{background:#fff;opacity:1}
+  .stepchip .wk{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+  .stepchip .nm{font-family:var(--serif);font-size:14px;font-weight:600;line-height:1.1;margin-top:3px}
+  .stepchip .ct{font-family:var(--mono);font-size:10px;color:var(--accent);margin-top:5px}
+  .stepchip.done{background:var(--accentSoft);border-color:#e4cdc6}
+
+  /* --- section cards --- */
+  section.art{border:1px solid var(--rule);background:var(--paper);padding:22px 26px 24px;margin-bottom:16px;scroll-margin-top:14px}
+  .arthead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:14px}
+  .arthead .left .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .arthead .left h2{font-family:var(--serif);font-size:23px;font-weight:600;margin:4px 0 0;letter-spacing:-.01em}
+  .arthead .left .sub{font-size:12.8px;color:var(--muted);margin:5px 0 0;max-width:66ch}
+  .arthead .right{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:right;white-space:nowrap}
+  .prompt{background:var(--accentSoft);border:1px solid #e4cdc6;padding:9px 13px;font-size:12.4px;line-height:1.5;color:#5b2a22;margin-bottom:14px}
+  .prompt b{font-weight:700}
+
+  /* --- tables --- */
+  table.t{width:100%;border-collapse:collapse;font-size:13px}
+  table.t th{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:700;padding:6px 8px;border-bottom:1.5px solid var(--rule);vertical-align:bottom}
+  table.t td{padding:5px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+  table.t td input,table.t td textarea{width:100%;font-family:var(--sans);font-size:12.8px;border:none;background:transparent;color:var(--ink);resize:vertical;padding:3px 2px;line-height:1.4}
+  input:focus,textarea:focus{outline:2px solid var(--accentSoft);outline-offset:1px;background:#fffdf8}
+  button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  table.t td input.mono{font-family:var(--mono);font-size:12px}
+  table.t tr.seed td{background:rgba(156,59,46,.035)}
+  .delrow{font-family:var(--mono);font-size:14px;color:var(--faint);cursor:pointer;border:none;background:none;padding:0 4px;line-height:1}
+  .delrow:hover{color:var(--down)}
+  .addrow{margin-top:10px}
+  .rowcount{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+
+  /* --- glossary count meter --- */
+  .meter{display:flex;align-items:center;gap:10px;margin:12px 0 4px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+  .meter .bar{flex:1;height:6px;background:var(--chip);border-radius:3px;overflow:hidden;max-width:280px}
+  .meter .fill{height:100%;background:var(--accent);width:0%;transition:width .2s}
+  .meter .land{color:var(--ok);font-weight:700}
+
+  /* --- money diagram builder --- */
+  .moneylab{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+  @media(max-width:760px){.moneylab{grid-template-columns:1fr}}
+  .flowbox{font-family:var(--mono);font-size:12.5px;line-height:1.85;background:#fffdf8;border:1px solid var(--fieldBorder);padding:16px 16px;min-height:200px;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+  .moneyEditor textarea{width:100%;min-height:200px;font-family:var(--mono);font-size:12.5px;line-height:1.8;border:1px solid var(--fieldBorder);background:var(--field);color:var(--ink);padding:12px;resize:vertical}
+  .moneyEditor .hint{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:6px;line-height:1.5}
+  .flowbox .tk{color:var(--muted)}
+  .flowbox .actor{color:var(--accent);font-weight:700}
+
+  /* --- regulator card --- */
+  .regcard{border:1px solid var(--fieldBorder);background:#fffdf8;padding:0;margin-bottom:12px}
+  .regcard .head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--rule);background:rgba(156,59,46,.04)}
+  .regcard .head input{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--accent);border:none;background:transparent;flex:1}
+  .regcard .body{padding:10px 12px}
+  .regcard .body label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin:0 0 2px}
+  .regcard .body textarea{width:100%;font-size:12.6px;border:none;background:transparent;resize:vertical;color:var(--ink);line-height:1.45;padding:0;margin-bottom:9px;min-height:38px}
+  .regcard .body .prevent textarea{font-style:italic;color:#5b2a22}
+
+  /* --- disagreement tracker --- */
+  .disg{border:1px solid var(--fieldBorder);background:#fffdf8;padding:12px 14px;margin-bottom:12px}
+  .disg .q{font-family:var(--serif);font-size:15.5px;font-weight:600;line-height:1.25}
+  .disg .q input{width:100%;font-family:var(--serif);font-size:15.5px;font-weight:600;border:none;background:transparent;color:var(--ink);line-height:1.25}
+  .disg .meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:9px}
+  @media(max-width:560px){.disg .meta{grid-template-columns:1fr}}
+  .disg .meta label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+  .disg .meta textarea{width:100%;font-size:12.6px;border:none;background:transparent;resize:vertical;color:var(--ink);line-height:1.45;min-height:46px;padding:0}
+  .disg .stance{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .disg .stance label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .disg .stance select{font-family:var(--sans);font-size:12px;padding:3px 6px;border:1px solid var(--fieldBorder);background:var(--field)}
+
+  /* --- export --- */
+  .exportbar{position:sticky;bottom:0;z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--ink);color:#f3efe6;padding:12px 18px;margin-top:18px;border-radius:2px}
+  .exportbar .lab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#cfc8bb}
+  .exportbar button{border-color:#f3efe6}
+  #exportArea{display:none;margin-top:14px}
+  #exportArea textarea{width:100%;min-height:340px;font-family:var(--mono);font-size:11.5px;line-height:1.55;border:1px solid var(--fieldBorder);background:#fffdf8;color:var(--ink);padding:14px;white-space:pre}
+
+  /* --- footer --- */
+  footer.foot{margin-top:22px;border-top:1px solid var(--rule);padding-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--faint);line-height:1.65}
+  footer.foot a{color:var(--accent);text-decoration:none}
+  footer.foot a:hover{text-decoration:underline}
+  .seedbadge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent);background:var(--accentSoft);border:1px solid #e4cdc6;padding:1px 6px;border-radius:2px;vertical-align:middle}
+  b,strong{font-weight:650}
+  @media (prefers-reduced-motion:reduce){.stepchip,.meter .fill{transition:none}}
+  @media print{
+    html,body{background:#fff}
+    .toolbar,.exportbar,button,.addrow{display:none!important}
+    .stepchip{display:block!important} /* chips are buttons now; keep the progress strip in print */
+    section.art,header.mast{border-color:#ccc}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">The receipts &nbsp;·&nbsp; domain-ramp workbook &nbsp;·&nbsp; <span class="accent">Jeff Pinto</span></div>
+    <h1>Reading a new domain, in five artifacts.</h1>
+    <p class="tag">Outsider to value-adding in a review meeting in about six weeks. The sprint produces five things; this workbook is where you build them.</p>
+    <p class="submast">Pre-seeded with a fully-worked public example — <b>higher-ed enrollment marketing</b>, an industry I read for eight years at Sparkroom. Clear it and type your own domain to start fresh. <b>Nothing you type leaves this page</b> — no server, no storage, no tracking. Export to Markdown when you're done.</p>
+
+    <div class="toolbar">
+      <div class="domainField">
+        <label for="domain">Domain</label>
+        <input class="domain" id="domain" value="Higher-ed enrollment marketing" aria-label="Domain name">
+      </div>
+      <button class="ghost mini" id="clearBtn" title="Wipe the seeded example and start blank">Clear example → blank</button>
+      <button class="ghost mini" id="reseedBtn" title="Restore the worked higher-ed example">Restore example</button>
+    </div>
+
+    <div class="steps" id="stepStrip"></div>
+  </header>
+
+  <!-- ============ 1 · GLOSSARY ============ -->
+  <section class="art" id="art-glossary">
+    <div class="arthead">
+      <div class="left">
+        <div class="kicker">Week 1–2 · Artifact 1</div>
+        <h2>Glossary tracker</h2>
+        <p class="sub">Read one trade article a day; log every term you can't yet use in a sentence. 150–250 entries is the signal vocabulary has landed — when you stop adding new ones on most days, you're done.</p>
+      </div>
+      <div class="right" id="glossRight"></div>
+    </div>
+    <div class="prompt"><b>Anti-pattern:</b> asking an AI to "summarize the industry." You'll get a plausible summary that fails silently the first time you use it with an insider. Vocabulary has to be absorbed, not summarized.</div>
+
+    <!-- static values mirror the first render of the seeded example (12 terms) -->
+    <div class="meter">
+      <span aria-live="polite">TERMS LOGGED <b id="glossCount">12</b></span>
+      <span class="bar"><span class="fill" id="glossFill" style="width:6%"></span></span>
+      <span id="glossSignal">target ≈ 150–250 (12 logged)</span>
+    </div>
+
+    <table class="t" id="glossTable">
+      <thead><tr><th style="width:22%">Term</th><th style="width:46%">Working definition (from context)</th><th style="width:24%">Where you hit it</th><th style="width:8%"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="addrow"><button class="ghost mini" data-add="glossary">+ Add term</button></div>
+  </section>
+
+  <!-- ============ 2 · MONEY DIAGRAM ============ -->
+  <section class="art" id="art-money">
+    <div class="arthead">
+      <div class="left">
+        <div class="kicker">Week 2–3 · Artifact 2</div>
+        <h2>Money-diagram builder</h2>
+        <p class="sub">Who pays whom, for what, on what schedule — with the take-rate at each step. You can't do useful work until you can draw this from memory. The step with the take-rate has the political power.</p>
+      </div>
+      <div class="right">one page<br>drawn from memory</div>
+    </div>
+    <div class="prompt"><b>Highest-leverage hour in the whole sprint:</b> show a half-drawn version, warts and question marks, to one industry vet and ask them to correct it. People fix diagrams; they won't draw on a blank page. A good coffee is worth three weeks of reading.</div>
+
+    <div class="moneylab">
+      <div>
+        <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Rendered flow</div>
+        <div class="flowbox" id="moneyView"></div>
+      </div>
+      <div class="moneyEditor">
+        <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Edit (one step per line)</div>
+        <textarea id="moneySrc" spellcheck="false" aria-label="Money diagram source — one step per line"></textarea>
+        <div class="hint">Syntax: <code>ACTOR &gt; what &gt; ACTOR</code> for a flow, indent a <code>(take ~15–30%)</code> note with two spaces, or just write a plain line. Caps become actor nodes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 · REGULATOR CARD ============ -->
+  <section class="art" id="art-reg">
+    <div class="arthead">
+      <div class="left">
+        <div class="kicker">Week 3–4 · Artifact 3</div>
+        <h2>Regulator-summary card</h2>
+        <p class="sub">Two-to-four rules shape the industry more than the industry does. You don't need to be a lawyer — for each rule, answer one question: <i>what does this prevent a smart actor from doing that they'd otherwise want to do?</i></p>
+      </div>
+      <div class="right" id="regRight"></div>
+    </div>
+    <div id="regCards"></div>
+    <div class="addrow"><button class="ghost mini" data-add="reg">+ Add rule</button></div>
+  </section>
+
+  <!-- ============ 4 · INCUMBENT MAP ============ -->
+  <section class="art" id="art-inc">
+    <div class="arthead">
+      <div class="left">
+        <div class="kicker">Week 4–5 · Artifact 4</div>
+        <h2>Incumbent map</h2>
+        <p class="sub">Three-to-seven firms run most of any market. Rank by share; name each one's strategic posture and key vulnerability. Read 10-Ks, Crunchbase, and — the unglamorous winner — former VPs posting on LinkedIn for free. Skip the company websites; they're marketing.</p>
+      </div>
+      <div class="right" id="incRight"></div>
+    </div>
+    <table class="t" id="incTable">
+      <thead><tr><th style="width:24%">Firm</th><th style="width:13%">Rough share</th><th style="width:31%">Strategic posture</th><th style="width:26%">Key vulnerability</th><th style="width:6%"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="addrow"><button class="ghost mini" data-add="inc">+ Add firm</button></div>
+  </section>
+
+  <!-- ============ 5 · LIVE DISAGREEMENT ============ -->
+  <section class="art" id="art-dis">
+    <div class="arthead">
+      <div class="left">
+        <div class="kicker">Week 5–6 · Artifact 5</div>
+        <h2>Live-disagreement tracker</h2>
+        <p class="sub">What do smart insiders openly disagree about? Find it and you've got two assets: a question that structures everything else you learn, and a conversation opener insiders will actually engage. "What's your take on [live question]?" beats "tell me about your industry" ten to one.</p>
+      </div>
+      <div class="right" id="disRight"></div>
+    </div>
+    <div id="disList"></div>
+    <div class="addrow"><button class="ghost mini" data-add="dis">+ Add disagreement</button></div>
+  </section>
+
+  <!-- ============ EXPORT ============ -->
+  <div class="exportbar">
+    <span class="lab">Week 6 · Write it down — the artifact you'd hand the next hire. This export <b>is</b> that artifact.</span>
+    <div style="display:flex;gap:8px">
+      <button id="exportBtn">Export to Markdown</button>
+      <button class="ghost" id="copyBtn" style="display:none">Copy</button>
+    </div>
+  </div>
+  <div id="exportArea"><textarea id="exportText" readonly spellcheck="false" aria-label="Exported Markdown"></textarea></div>
+
+  <footer class="foot">
+    The domain-ramp workbook · built by <b>Jeff Pinto</b> — six domain switches in 30 years (broadcasting, logistics, higher-ed enrollment, clinical NLP, consumer fintech, consumer AI).<br>
+    Grounded in the note <a href="https://jeffpinto.com/notes/reading-new-domain/">Reading a new domain fast</a>. &nbsp;·&nbsp; Repo: <a href="https://github.com/bigbrownjeff/reading-new-domain">github.com/bigbrownjeff/reading-new-domain</a><br>
+    Advisory — a diagnostic engagement opens with a compressed version of this sprint on your own domain: <a href="https://jeffpinto.com/engage/">jeffpinto.com/engage/</a> &nbsp;·&nbsp; No data is collected; everything you type stays in this browser tab.
+  </footer>
+
+</div>
+
+<script>
+/* ===========================================================================
+   The Domain-Ramp Workbook — all state in-memory (JS vars). No localStorage,
+   no network, no tracking. Seeded with the worked higher-ed-enrollment example
+   pulled from the source note + the enrollment-funnels / gcu-media-planning notes.
+   =========================================================================== */
+(function(){
+"use strict";
+
+/* ---- in-memory state (the only persistence there is) ---- */
+const state = {
+  domain: "Higher-ed enrollment marketing",
+  glossary: [],
+  money: "",
+  reg: [],
+  inc: [],
+  dis: []
+};
+
+/* ---- the worked example (verbatim-grounded, public) ---- */
+const SEED = {
+  domain: "Higher-ed enrollment marketing",
+  glossary: [
+    ["Start", "An enrolled, attending student — the true bottom-of-funnel conversion. The number the institution gets paid against.", "Inside Higher Ed"],
+    ["CPS / cost-per-Start", "Total spend divided by Starts. The honest objective. Observable in weeks, not days.", "GCU media plan"],
+    ["CPI / cost-per-Inquiry", "Cost per raw inquiry. Observable fast, which is why channel managers optimize it — and why it lies about yield.", "Sparkroom scorecard"],
+    ["Yield", "Share of admitted students who actually enroll. A fit problem, not a conversion-rate problem.", "The Chronicle"],
+    ["Scrub rate", "Fraction of leads discarded as invalid before they count as 'good leads'.", "lead-ingestion pipeline"],
+    ["Melt / summer melt", "Admitted, deposited students who never show up in the fall. The yield killer nobody budgets for.", "enrollment ops"],
+    ["Cross-admit", "An applicant admitted to you AND a named competitor. Cross-admit + financial-aid-delta data is the single highest-leverage analytics asset in enrollment.", "yield research"],
+    ["OPM", "Online Program Manager — outsources/marketing for online degrees, usually on a tuition-share (revenue-share) contract.", "Inside Higher Ed"],
+    ["Title IV", "Federal student-aid eligibility. The gate everything passes through; losing it ends an institution.", "Higher Education Act"],
+    ["Gainful employment", "Rule tying program eligibility to graduate earnings vs. debt. Reshapes which programs can be marketed.", "Dept. of Education"],
+    ["90/10 rule", "For-profits must get ≥10% of revenue from non-Title-IV sources. Shapes the whole for-profit model.", "American Banker (ed-finance)"],
+    ["Branded / unbranded search", "Paid search on the school's own name vs. generic terms. Wildly different CPS; constant attribution fight.", "GCU media plan"]
+  ],
+  money: `STUDENT > tuition > INSTITUTION
+  (~5-15% of tuition reallocated to enrollment)
+INSTITUTION > enrollment budget > ENROLLMENT BUDGET
+ENROLLMENT BUDGET > media buy > MEDIA VENDORS / AGENCIES / LEAD-GEN PLATFORMS
+  (platform take ~15-30%)
+MEDIA VENDORS / AGENCIES / LEAD-GEN PLATFORMS > retained margin > PLATFORM
+ENROLLMENT BUDGET > inquiries > STARTS
+  (CPS is the number that actually matters; CPI is the number that gets optimized)`,
+  reg: [
+    {
+      name: "Higher Education Act / Title IV",
+      shapes: "Sets federal student-aid eligibility. The gate every dollar of tuition financing passes through. Loss of Title IV access is effectively a death sentence for an institution.",
+      prevents: "Prevents a smart actor from marketing or enrolling into programs that aren't aid-eligible — so program design and channel choice bend around eligibility, not around demand.",
+      action: "Periodic recertification reviews; program-eligibility determinations."
+    },
+    {
+      name: "Gainful employment",
+      shapes: "Ties continued eligibility of career programs to graduate earnings-vs-debt ratios. Reshaped which programs could exist and be advertised at all, especially in the for-profit sector.",
+      prevents: "Prevents enrolling students into programs whose graduates can't service the debt — so the marketable program mix narrows, and 'spend the budget' is constrained by 'which programs survive the metric.'",
+      action: "Rule rescinded then reinstated across administrations; the enforcement posture is the variable to watch."
+    },
+    {
+      name: "Incentive-compensation ban",
+      shapes: "Bars paying admissions/recruiting staff on enrollment volume. This single rule redirected how institutions paid for enrollment, which redirected how media was bought, which redirected what lead-gen platforms could exist.",
+      prevents: "Prevents commission-style recruiter pay — so the value migrates from human closers to measured media, which is exactly why a Sparkroom-shaped product had a market.",
+      action: "Dear Colleague letters; bundled-services exception guidance for OPMs."
+    }
+  ],
+  inc: [
+    ["2U", "~ top OPM", "Premium full-service OPM; tuition-share contracts with brand-name universities", "Revenue-share model under regulatory and margin pressure; debt load"],
+    ["Academic Partnerships", "large OPM", "Volume online-program enablement for regional public universities", "Commoditizing OPM market; share concentrated in a few university partners"],
+    ["EAB / Ruffalo Noel Levitz", "enrollment-mgmt leaders", "Enrollment-management consulting + financial-aid optimization + CRM", "Consulting-heavy; slower to productize than pure-software entrants"],
+    ["Lead-gen networks (e.g. EducationDynamics)", "long tail, large in aggregate", "Third-party inquiry generation sold per-lead to many schools", "Lead quality / scrub-rate scrutiny; regulatory exposure on marketing claims"]
+  ],
+  dis: [
+    {
+      q: "Will the graduate-professional segment hold up against OPM consolidation?",
+      a: "The live question in higher-ed enrollment circa 2014. Grad-professional was the profit center; OPM consolidation threatened to commoditize it.",
+      update: "Watch tuition-share contract renewals and the bundled-services exception. If universities in-source marketing, the OPM thesis breaks.",
+      stance: "Watching"
+    }
+  ]
+};
+
+/* escape user text before any innerHTML interpolation */
+const esc = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+/* ---------- GLOSSARY ---------- */
+function renderGlossary(){
+  const tb = document.querySelector("#glossTable tbody");
+  tb.innerHTML = "";
+  state.glossary.forEach((row, i) => {
+    const tr = document.createElement("tr");
+    if (row._seed) tr.className = "seed";
+    tr.innerHTML =
+      `<td><input value="${esc(row[0])}" data-coll="glossary" data-i="${i}" data-c="0" placeholder="term" aria-label="Term"></td>`+
+      `<td><textarea rows="1" data-coll="glossary" data-i="${i}" data-c="1" placeholder="working definition" aria-label="Working definition">${esc(row[1])}</textarea></td>`+
+      `<td><input value="${esc(row[2])}" data-coll="glossary" data-i="${i}" data-c="2" placeholder="source" aria-label="Where you hit it"></td>`+
+      `<td style="text-align:center"><button class="delrow" data-del="glossary" data-i="${i}" title="remove" aria-label="Remove term">×</button></td>`;
+    tb.appendChild(tr);
+  });
+  renderGlossMeta();
+  autosize(tb);
+}
+/* meter + counts re-derive from state on every keystroke, so they never go
+   stale against the table; writes are guarded so aria-live stays quiet
+   unless the count actually changed */
+function renderGlossMeta(){
+  const n = state.glossary.filter(r => r[0].trim()).length;
+  const cnt = document.getElementById("glossCount");
+  if (cnt.textContent !== String(n)) cnt.textContent = n;
+  // 200 = midpoint of the 150–250 target band; capped at a full bar
+  const pct = Math.min(100, Math.round((n / 200) * 100));
+  document.getElementById("glossFill").style.width = pct + "%";
+  const sig = document.getElementById("glossSignal");
+  if (n >= 150){ if (!sig.querySelector(".land")) sig.innerHTML = '<span class="land">vocabulary landed ✓</span>'; }
+  else { const t = "target ≈ 150–250 (" + n + " logged)"; if (sig.textContent !== t) sig.textContent = t; }
+  document.getElementById("glossRight").textContent = n + " term" + (n===1?"":"s");
+}
+
+/* ---------- MONEY ---------- */
+function renderMoney(){
+  const src = state.money || "";
+  const view = document.getElementById("moneyView");
+  const html = src.split("\n").map(line => {
+    if (!line.trim()) return "&nbsp;";
+    const indented = /^\s{2,}/.test(line);
+    let t = esc(line.trim());
+    // flow line "A > x > B": bold the caps tokens
+    t = t.replace(/([A-Z][A-Z0-9 /.\-]{2,})/g, '<span class="actor">$1</span>');
+    t = t.replace(/&gt;/g, '<span class="tk">→</span>');
+    if (indented) return '<span class="tk">&nbsp;&nbsp;&nbsp;' + t + '</span>';
+    return t;
+  }).join("<br>");
+  view.innerHTML = html;
+}
+
+/* ---------- REGULATOR ---------- */
+function renderReg(){
+  const wrap = document.getElementById("regCards");
+  wrap.innerHTML = "";
+  state.reg.forEach((r, i) => {
+    const div = document.createElement("div");
+    div.className = "regcard";
+    div.innerHTML =
+      `<div class="head"><input value="${esc(r.name)}" data-coll="reg" data-i="${i}" data-k="name" placeholder="Rule / regulation name" aria-label="Rule or regulation name">`+
+      `<button class="delrow" data-del="reg" data-i="${i}" title="remove" aria-label="Remove rule">×</button></div>`+
+      `<div class="body">`+
+        `<label for="reg-shapes-${i}">How it shapes the industry</label>`+
+        `<textarea id="reg-shapes-${i}" data-coll="reg" data-i="${i}" data-k="shapes" placeholder="The structural effect…">${esc(r.shapes)}</textarea>`+
+        `<div class="prevent"><label for="reg-prevents-${i}">What does this prevent a smart actor from doing?</label>`+
+        `<textarea id="reg-prevents-${i}" data-coll="reg" data-i="${i}" data-k="prevents" placeholder="…that they'd otherwise want to do.">${esc(r.prevents)}</textarea></div>`+
+        `<label for="reg-action-${i}">Recent enforcement / what to watch</label>`+
+        `<textarea id="reg-action-${i}" data-coll="reg" data-i="${i}" data-k="action" placeholder="Last 2–3 meaningful actions">${esc(r.action)}</textarea>`+
+      `</div>`;
+    wrap.appendChild(div);
+  });
+  document.getElementById("regRight").textContent = state.reg.length + " of 2–4";
+  autosize(wrap);
+}
+
+/* ---------- INCUMBENTS ---------- */
+function renderInc(){
+  const tb = document.querySelector("#incTable tbody");
+  tb.innerHTML = "";
+  state.inc.forEach((row, i) => {
+    const tr = document.createElement("tr");
+    if (row._seed) tr.className = "seed";
+    tr.innerHTML =
+      `<td><input value="${esc(row[0])}" data-coll="inc" data-i="${i}" data-c="0" placeholder="firm" aria-label="Firm"></td>`+
+      `<td><input class="mono" value="${esc(row[1])}" data-coll="inc" data-i="${i}" data-c="1" placeholder="~share" aria-label="Rough share"></td>`+
+      `<td><textarea rows="1" data-coll="inc" data-i="${i}" data-c="2" placeholder="strategic posture" aria-label="Strategic posture">${esc(row[2])}</textarea></td>`+
+      `<td><textarea rows="1" data-coll="inc" data-i="${i}" data-c="3" placeholder="key vulnerability" aria-label="Key vulnerability">${esc(row[3])}</textarea></td>`+
+      `<td style="text-align:center"><button class="delrow" data-del="inc" data-i="${i}" title="remove" aria-label="Remove firm">×</button></td>`;
+    tb.appendChild(tr);
+  });
+  const n = state.inc.length;
+  const right = document.getElementById("incRight");
+  right.textContent = n + " firm" + (n===1?"":"s") + (n>7 ? " · trim to 3–7" : (n>=3 ? " · 3–7 ✓" : ""));
+  autosize(tb);
+}
+
+/* ---------- DISAGREEMENT ---------- */
+function renderDis(){
+  const wrap = document.getElementById("disList");
+  wrap.innerHTML = "";
+  const stances = ["Watching", "Leaning yes", "Leaning no", "Resolved"];
+  state.dis.forEach((d, i) => {
+    const div = document.createElement("div");
+    div.className = "disg";
+    const opts = stances.map(s => `<option ${s===d.stance?"selected":""}>${s}</option>`).join("");
+    div.innerHTML =
+      `<div class="q"><input value="${esc(d.q)}" data-coll="dis" data-i="${i}" data-k="q" placeholder="The open question smart insiders disagree on…" aria-label="Open question"></div>`+
+      `<div class="meta">`+
+        `<div><label for="dis-a-${i}">Why it's live / who's on each side</label><textarea id="dis-a-${i}" data-coll="dis" data-i="${i}" data-k="a" placeholder="The shape of the disagreement.">${esc(d.a)}</textarea></div>`+
+        `<div><label for="dis-update-${i}">What would update your view</label><textarea id="dis-update-${i}" data-coll="dis" data-i="${i}" data-k="update" placeholder="The evidence you're watching for.">${esc(d.update)}</textarea></div>`+
+      `</div>`+
+      `<div class="stance"><label for="dis-stance-${i}">Your current stance</label>`+
+        `<select id="dis-stance-${i}" data-coll="dis" data-i="${i}" data-k="stance">${opts}</select>`+
+        `<button class="delrow" data-del="dis" data-i="${i}" title="remove" style="margin-left:auto" aria-label="Remove disagreement">×</button></div>`;
+    wrap.appendChild(div);
+  });
+  document.getElementById("disRight").textContent = state.dis.length + " tracked";
+  autosize(wrap);
+}
+
+/* ---------- progress strip ---------- */
+function renderSteps(){
+  const defs = [
+    ["Week 1–2", "Map the vocabulary", () => state.glossary.filter(r=>r[0].trim()).length, "glossary"],
+    ["Week 2–3", "Find the money", () => (state.money.trim() ? state.money.split("\n").filter(l=>l.trim()).length : 0), "money"],
+    ["Week 3–4", "Read the regulator", () => state.reg.filter(r=>r.name.trim()).length, "reg"],
+    ["Week 4–5", "Count the incumbents", () => state.inc.filter(r=>r[0].trim()).length, "inc"],
+    ["Week 5–6", "Find the disagreement", () => state.dis.filter(d=>d.q.trim()).length, "dis"],
+    ["Week 6", "Write it down", () => "→", "export"]
+  ];
+  const strip = document.getElementById("stepStrip");
+  strip.innerHTML = "";
+  defs.forEach(d => {
+    const c = d[2]();
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "stepchip" + ((typeof c === "number" && c > 0) ? " done" : "");
+    chip.dataset.goto = d[3];
+    let ct;
+    if (d[3] === "export") ct = "export ↓";
+    else if (d[3] === "money") ct = c > 0 ? c + " lines" : "empty";
+    else ct = c + " logged";
+    chip.innerHTML = `<div class="wk">${d[0]}</div><div class="nm">${d[1]}</div><div class="ct">${ct}</div>`;
+    strip.appendChild(chip);
+  });
+}
+
+/* prefers-reduced-motion: jump instead of smooth-scrolling */
+function scrollBehavior(){
+  return matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+}
+function goToSection(key){
+  const map = {glossary:"art-glossary", money:"art-money", reg:"art-reg", inc:"art-inc", dis:"art-dis"};
+  const el = key === "export" ? document.querySelector(".exportbar") : document.getElementById(map[key]);
+  if (el) el.scrollIntoView({behavior: scrollBehavior(), block:"center"});
+}
+
+/* ---------- textarea auto-grow ---------- */
+function autosize(scope){
+  (scope || document).querySelectorAll("textarea").forEach(ta => {
+    ta.style.height = "auto";
+    ta.style.height = Math.max(ta.scrollHeight, 22) + "px";
+  });
+}
+
+/* ---------- full re-render ---------- */
+function renderAll(){
+  document.getElementById("domain").value = state.domain;
+  renderGlossary(); renderMoney(); renderReg(); renderInc(); renderDis(); renderSteps();
+}
+
+/* ---------- event wiring (delegation) ---------- */
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "domain"){ state.domain = t.value; renderSteps(); return; }
+  if (t.id === "moneySrc"){ state.money = t.value; renderMoney(); renderSteps(); return; }
+  const coll = t.dataset.coll;
+  if (!coll) return;
+  const i = +t.dataset.i;
+  if (coll === "glossary" || coll === "inc"){
+    state[coll][i][+t.dataset.c] = t.value;
+    if (coll === "glossary") renderGlossMeta();
+  } else {
+    state[coll][i][t.dataset.k] = t.value;
+  }
+  if (t.tagName === "TEXTAREA"){ t.style.height="auto"; t.style.height=Math.max(t.scrollHeight,22)+"px"; }
+  renderSteps();
+});
+
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset.coll === "dis" && t.dataset.k === "stance"){ state.dis[+t.dataset.i].stance = t.value; }
+});
+
+document.addEventListener("click", e => {
+  const chip = e.target.closest("[data-goto]");
+  if (chip){ goToSection(chip.dataset.goto); return; }
+  const add = e.target.dataset.add, del = e.target.dataset.del;
+  if (add){
+    if (add === "glossary") state.glossary.push(["","",""]);
+    if (add === "inc") state.inc.push(["","","",""]);
+    if (add === "reg") state.reg.push({name:"",shapes:"",prevents:"",action:""});
+    if (add === "dis") state.dis.push({q:"",a:"",update:"",stance:"Watching"});
+    renderAll();
+    // focus the new row's first field (first <input> of the last row/card)
+    const sel = {glossary:"#glossTable tbody tr", inc:"#incTable tbody tr", reg:"#regCards .regcard", dis:"#disList .disg"}[add];
+    const rows = document.querySelectorAll(sel);
+    const first = rows.length && rows[rows.length-1].querySelector("input");
+    if (first) first.focus();
+  }
+  if (del){
+    state[del].splice(+e.target.dataset.i, 1);
+    renderAll();
+  }
+});
+
+/* ---------- moneySrc needs its own binding to the textarea value ---------- */
+function bindMoneySrc(){ document.getElementById("moneySrc").value = state.money; }
+
+/* ---------- seed / clear ---------- */
+function loadSeed(){
+  state.domain = SEED.domain;
+  state.glossary = SEED.glossary.map(r => { const c=[r[0],r[1],r[2]]; c._seed=true; return c; });
+  state.money = SEED.money;
+  state.reg = SEED.reg.map(r => Object.assign({}, r));
+  state.inc = SEED.inc.map(r => { const c=[r[0],r[1],r[2],r[3]]; c._seed=true; return c; });
+  state.dis = SEED.dis.map(d => Object.assign({}, d));
+  bindMoneySrc(); renderAll();
+}
+function clearAll(){
+  state.domain = "";
+  state.glossary = [["","",""]];
+  state.money = "";
+  state.reg = [{name:"",shapes:"",prevents:"",action:""}];
+  state.inc = [["","","",""]];
+  state.dis = [{q:"",a:"",update:"",stance:"Watching"}];
+  bindMoneySrc(); renderAll();
+  document.getElementById("domain").focus();
+}
+document.getElementById("clearBtn").addEventListener("click", clearAll);
+document.getElementById("reseedBtn").addEventListener("click", loadSeed);
+
+/* ---------- export to markdown ---------- */
+function toMarkdown(){
+  const d = state.domain || "Untitled domain";
+  const today = new Date().toISOString().slice(0,10);
+  let m = `# Domain-ramp artifact — ${d}\n\n`;
+  m += `_The six-week sprint, written down. Generated from the Domain-Ramp Workbook (jeffpinto.com) on ${today}._\n\n`;
+  m += `> Sprint: map the vocabulary → find the money → read the regulator → count the incumbents → find the live disagreement → write this.\n\n`;
+
+  m += `## 1 · Glossary\n\n`;
+  const g = state.glossary.filter(r => r[0].trim());
+  m += `_${g.length} terms logged (target 150–250 to land vocabulary)._\n\n`;
+  if (g.length){
+    m += `| Term | Working definition | Where |\n|---|---|---|\n`;
+    g.forEach(r => { m += `| ${cell(r[0])} | ${cell(r[1])} | ${cell(r[2])} |\n`; });
+  } else { m += `_(none yet)_\n`; }
+  m += `\n`;
+
+  m += `## 2 · Money diagram\n\n`;
+  m += state.money.trim() ? "```\n" + state.money.trimEnd() + "\n```\n\n" : "_(not drawn yet)_\n\n";
+
+  m += `## 3 · Regulator summary\n\n`;
+  const reg = state.reg.filter(r => r.name.trim());
+  if (reg.length){
+    reg.forEach(r => {
+      m += `### ${r.name.trim()}\n`;
+      if (r.shapes.trim())   m += `- **Shapes the industry by:** ${r.shapes.trim()}\n`;
+      if (r.prevents.trim()) m += `- **Prevents a smart actor from:** ${r.prevents.trim()}\n`;
+      if (r.action.trim())   m += `- **Watch / enforcement:** ${r.action.trim()}\n`;
+      m += `\n`;
+    });
+  } else { m += `_(none yet — find the 2–4 rules that shape this industry)_\n\n`; }
+
+  m += `## 4 · Incumbent map\n\n`;
+  const inc = state.inc.filter(r => r[0].trim());
+  if (inc.length){
+    m += `| Firm | Rough share | Strategic posture | Key vulnerability |\n|---|---|---|---|\n`;
+    inc.forEach(r => { m += `| ${cell(r[0])} | ${cell(r[1])} | ${cell(r[2])} | ${cell(r[3])} |\n`; });
+  } else { m += `_(none yet — three-to-seven firms run most of the market)_\n`; }
+  m += `\n`;
+
+  m += `## 5 · Live disagreement(s)\n\n`;
+  const dis = state.dis.filter(x => x.q.trim());
+  if (dis.length){
+    dis.forEach(x => {
+      m += `### ${x.q.trim()}  _(stance: ${x.stance})_\n`;
+      if (x.a.trim())      m += `- **Why it's live:** ${x.a.trim()}\n`;
+      if (x.update.trim()) m += `- **What would update my view:** ${x.update.trim()}\n`;
+      m += `\n`;
+    });
+  } else { m += `_(none yet — this is the phase that separates done from pretending)_\n\n`; }
+
+  m += `## 6 · Your gaps\n\n_Writing this down exposes them. List the three things you still can't explain, by name — that's your week-seven reading list, ranked._\n\n1. \n2. \n3. \n\n`;
+  m += `---\n\nBuilt with the Domain-Ramp Workbook by Jeff Pinto — https://jeffpinto.com/notes/reading-new-domain/ · advisory: https://jeffpinto.com/engage/\n`;
+  return m;
+}
+function cell(s){ return String(s||"").replace(/\n+/g," ").replace(/\|/g,"\\|").trim() || "—"; }
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+  document.getElementById("exportText").value = toMarkdown();
+  document.getElementById("exportArea").style.display = "block";
+  document.getElementById("copyBtn").style.display = "inline-block";
+  document.getElementById("exportArea").scrollIntoView({behavior: scrollBehavior(), block:"start"});
+});
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const ta = document.getElementById("exportText");
+  try { await navigator.clipboard.writeText(ta.value); }
+  catch(_){ ta.select(); document.execCommand && document.execCommand("copy"); }
+  const b = document.getElementById("copyBtn"); const old = b.textContent;
+  b.textContent = "Copied ✓"; setTimeout(() => b.textContent = old, 1400);
+});
+
+/* ---------- boot ---------- */
+loadSeed();
+})();
+</script>
+</body>
+</html>

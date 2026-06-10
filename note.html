@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I built the workbook for the sprint. · Jeff Pinto</title>
+<meta name="description" content="The six-week domain ramp, turned into a single-file tool that fills in the five artifacts for your own industry — pre-loaded with the higher-ed example I know cold.">
+<link rel="stylesheet" href="../_assets/note.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back" href="../index.html">&larr; The <span class="rcpt">Receipts</span> &mdash; prototypes</a>
+    <a class="out" href="https://jeffpinto.com" target="_blank" rel="noopener">jeffpinto.com &uarr;</a>
+  </div>
+
+  <section class="note-hero">
+    <h1 class="h1 note-title">I built the workbook for the sprint.</h1>
+    <p class="deck note-deck">The six-week domain ramp, turned into a single-file tool that fills in the five artifacts for your own industry — pre-loaded with the higher-ed example I know cold.</p>
+    <div class="eyebrow note-hero-meta"><span class="sec">ORIENTING</span> · UPDATED JUN 8, 2026 · 6 MIN READ · 1,150 WORDS</div>
+  </section>
+
+  <article class="note-body case-prose">
+<p>Every time I described the <a href="/notes/reading-new-domain/">domain-ramp sprint</a> — map the vocabulary, find the money, read the regulator, count the incumbents, find the live disagreement, write the whole thing down — the same request came back: not the steps, the <em>artifact</em> at the end, the one I keep insisting is the real test. So I went and made the tool that produces it.</p>
+<p>It's a single HTML file. You open it in a browser, it's already filled in with a worked example, and you can clear that out and do your own. No login, no install, nothing you type leaves the page. I'll get to why it's so aggressively dumb on the privacy front in a minute.</p>
+<h3>What the workbook actually is</h3>
+<p>Five builders, one per artifact, stacked in the order the sprint runs them.</p>
+<p>The glossary is a table you add rows to, with a little meter that fills as you log terms — because the signal that vocabulary has landed isn't "I read a lot," it's "I went a whole day without writing down a new word." The money diagram is a text box with the lightest possible syntax: type <code>ACTOR &gt; what &gt; ACTOR</code> on a line and it renders the actors as nodes and the flow as arrows. The regulator card makes you answer the one question that matters for each rule — <em>what does this prevent a smart actor from doing that they'd otherwise want to do</em> — and won't let you get away with just naming the statute. The incumbent map is the four-column table from the original note. The disagreement tracker holds the open question plus a dropdown for where you currently stand, because your stance is supposed to move.</p>
+<p>Then there's an export button. It stitches all five into one Markdown document — the artifact you'd hand the next hire, which the <a href="/notes/reading-new-domain/">source note</a> insists is the only real proof the prior five weeks stuck.</p>
+<h3>Why it's pre-seeded with higher-ed enrollment</h3>
+<p>Because an empty workbook is a worksheet, and a filled-in one is a worked example, and the difference between those two is the difference between "I read about the sprint" and "I can see the sprint." I needed a domain I could fill in honestly, from memory, with the take-rates and the regulators and the live argument all correct. Higher-ed enrollment marketing was the obvious pick — I spent eight years in it at Sparkroom and it's the <a href="/notes/enrollment-funnels/">one I've written about most</a>.</p>
+<p>So the workbook opens on the real thing. The money diagram has tuition flowing to the institution, 5–15% of it peeling off into the enrollment budget, the platform take landing somewhere around 15–30%, and CPS sitting at the bottom as the number that actually matters while CPI is the number everybody optimizes anyway. The glossary has the words that get you taken seriously in that world — Start, yield, melt, cross-admit, the <a href="/notes/gcu-media-planning/">boast-versus-bound</a> distinction I had to invent a word for. The regulator card has Title IV, gainful employment, and the incentive-compensation ban, each with its "what does this prevent" answer written out, because — as I said in the original note — somebody who didn't know the regulatory history would look at a Sparkroom-shaped product and think <em>marketing tool</em> instead of <em>marketing tool constrained by a federal enforcement regime</em>. Different thing.</p>
+<p>The live disagreement is the 2014 one: whether the graduate-professional segment would hold up against OPM consolidation. I left my stance on "Watching" because, candidly, as a chronic re-litigator who can't leave a closed file closed, that's where it honestly still sits.</p>
+<h3>The part where I admit it's deliberately stupid</h3>
+<p>The workbook stores nothing. Not in a database — there is no database — but also not in your browser's local storage, not in a cookie, not in a tracking pixel, not in a forgotten Google Analytics snippet, not in one of those "we value your privacy" banners that values the opposite. State lives in a single JavaScript variable that evaporates the instant you close the tab. Export first or lose it.</p>
+<p>This is a feature, and it's the same instinct as the anti-pattern callout in the original sprint: don't ask an AI to summarize the industry for you, because you'll get a plausible-sounding paragraph that fails silently the first time you use it with an insider. The workbook can't do the absorbing for you. It can only hold the shape while you do it. A tool that quietly hoovered up half-finished domain maps from a hundred operators would be worth a lot to me and worth nothing to you, so I built the version that's worth something to you.</p>
+<p>There's also a small Python script in the repo that stamps a fresh blank copy pointed at any domain you name — <code>generate_workbook.py "Specialty pharma"</code> and you get a clean file already titled. That's mostly there to prove the thing is templatable, which matters because this is the standard front door for how I start an engagement.</p>
+<h3>How I actually use this with a client</h3>
+<p>The honest version: most operators dropping into a new vertical already know more than they think, but haven't <em>written it down</em> recently. They can talk for an hour about their industry and not be able to draw the money diagram from memory, or name the live disagreement out loud, or tell you which two regulations bend the whole org chart. The compressed sprint — run on their domain, with this workbook as the scaffold — surfaces exactly the gaps, in about a week instead of six, because they're not starting from zero. The deliverable is the filled-in artifact plus the ranked list of the three things they still can't explain.</p>
+<p>That's the diagnostic that opens most of my consulting work, and now there's a free version of the scaffold sitting right here. Steal it. If the sprint goes better with someone who's run it six times sitting next to you, you know where to find me.</p>
+<p>The repo, the generator, and the worked higher-ed example are all on <a href="https://github.com/bigbrownjeff/reading-new-domain">GitHub</a>. Open <code>workbook.html</code>, read the example, then clear it and start mapping your own.</p>
+  </article>
+
+  <section class="note-cta">
+    <div>
+      <div class="note-cta-eyebrow">If this is your problem</div>
+      <p class="note-cta-p">I do 4&ndash;12 week fixed-SOW consulting on the kind of work this note describes.</p>
+    </div>
+    <a href="https://jeffpinto.com/engage/" class="btn note-cta-btn">Scope an engagement &rarr;</a>
+  </section>
+
+  <div class="note-links">
+    <span class="lbl">Source / prototype</span>
+      <a href="one-pager.html">One-pager &rarr;</a>
+      <a href="https://github.com/bigbrownjeff/reading-new-domain" target="_blank" rel="noopener">Repo &uarr;</a>
+  </div>
+
+  <div class="foot">
+    Prototype companion to a note staged for jeffpinto.com/notes. Synthetic or
+    public data only &mdash; no secrets, no PII, no client data. Built June 2026.
+  </div>
+
+</div>
+</body>
+</html>
